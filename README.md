@@ -113,6 +113,16 @@ These scripts will build the Java backend, start the server, and launch the fron
   - HTTPS support
   - Port validation and security
 
+## Deployment
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+Options include:
+- Local network deployment
+- Docker deployment (using provided Dockerfile.backend, Dockerfile.frontend, and docker-compose.yml)
+- Cloud deployment (Heroku, Railway, Vercel, Netlify)
+- VPS deployment
+
 ## License
 
 MIT
