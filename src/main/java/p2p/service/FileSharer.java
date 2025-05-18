@@ -58,12 +58,19 @@ public class FileSharer {
         public void run() {
             try (FileInputStream fis = new FileInputStream(filePath);
                  OutputStream oss = clientSocket.getOutputStream()) {
+                
+                // Send the filename as a header
+                String filename = new File(filePath).getName();
+                String header = "Filename: " + filename + "\n";
+                oss.write(header.getBytes());
+                
+                // Send the file content
                 byte[] buffer = new byte[4096];
                 int bytesRead;
                 while ((bytesRead = fis.read(buffer)) != -1) {
                     oss.write(buffer, 0, bytesRead);
                 }
-                System.out.println("File '" + new File(filePath).getName() + "' sent to " + clientSocket.getInetAddress());
+                System.out.println("File '" + filename + "' sent to " + clientSocket.getInetAddress());
             } catch (IOException e) {
                 System.err.println("Error sending file to client: " + e.getMessage());
             } finally {
