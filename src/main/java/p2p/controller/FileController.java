@@ -110,7 +110,7 @@ public class FileController {
             
             byte[] requestData = baos.toByteArray();
             String requestString = new String(requestData);
-            
+            System.out.println("File uploaded requestString is "+requestString);
             String filenameHeader = "filename=\"";
             int filenameStart = requestString.indexOf(filenameHeader);
             if (filenameStart == -1) {

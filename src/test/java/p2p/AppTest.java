@@ -3,8 +3,6 @@ package p2p;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import p2p.service.FileSharer;
-import p2p.service.RecieverServer;
 
 /**
  * Unit test for simple App.
