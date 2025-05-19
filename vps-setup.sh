@@ -1,61 +1,8 @@
-#!/bin/bash
-
-# PeerLink VPS Setup Script
-# This script helps set up PeerLink on a fresh Ubuntu/Debian VPS
-
-# Exit on error
-set -e
-
-echo "=== PeerLink VPS Setup Script ==="
-echo "This script will install Java, Node.js, Nginx, and set up PeerLink."
-
-# Update system
-echo "Updating system packages..."
-sudo apt update
-sudo apt upgrade -y
-
-# Install Java
-echo "Installing Java..."
-sudo apt install -y openjdk-17-jdk
-
-# Install Node.js
-echo "Installing Node.js..."
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Install Nginx
-echo "Installing Nginx..."
-sudo apt install -y nginx
-
-# Install PM2
-echo "Installing PM2..."
-sudo npm install -g pm2
-
-# Install Maven
-echo "Installing Maven..."
-sudo apt install -y maven
-
-# Clone repository (uncomment and modify if using Git)
-# echo "Cloning repository..."
-# git clone https://github.com/yourusername/peerlink.git
-# cd peerlink
-
-# Build backend
-echo "Building Java backend..."
-mvn clean package
-
-# Build frontend
-echo "Building frontend..."
-cd ui
-npm install
-npm run build
-cd ..
-
 # Set up Nginx
 echo "Setting up Nginx..."
 sudo cp nginx.conf.example /etc/nginx/sites-available/peerlink
-# Replace yourdomain.com with actual domain
-sudo sed -i 's/yourdomain.com/your-actual-domain.com/g' /etc/nginx/sites-available/peerlink
+# Replace yourdomain.com with _ to listen on all hostnames for the IP
+sudo sed -i 's/yourdomain.com/_/g' /etc/nginx/sites-available/peerlink
 sudo ln -sf /etc/nginx/sites-available/peerlink /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
@@ -85,7 +32,7 @@ pm2 startup
 
 echo "=== Setup Complete ==="
 echo "PeerLink is now running on your VPS!"
-echo "Backend API: http://localhost:8080"
-echo "Frontend: http://localhost:3000"
-echo "Configure your domain DNS to point to this server's IP address."
-echo "Visit https://your-actual-domain.com to access your application."
+echo "Backend API: http://localhost:8080 (Internal - accessed via Nginx)"
+echo "Frontend: http://your_lightsail_public_ip (Access via your instance's IP address)"
+echo "You can access your application using your Lightsail instance's public IP address in your browser."
+# echo "Visit https://your-actual-domain.com to access your application."
