@@ -29,6 +29,18 @@
   </dependencyManagement>
 
   <dependencies>
+    <!-- Apache Commons FileUpload for handling multipart/form-data requests -->
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.5</version>
+    </dependency>
+    <!-- Apache Commons IO for IO utilities -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.15.1</version>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
