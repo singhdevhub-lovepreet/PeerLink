@@ -100,9 +100,93 @@ These scripts will build the Java backend, start the server, and launch the fron
 └─────────────┘      └─────────────┘      └─────────────┘
 ```
 
-- **Next.js UI**: Provides the user interface for uploading and downloading files
-- **Java Server**: Handles file uploads, generates invite codes, and manages file sharing
-- **Peer Device**: Another device that can connect to download shared files
+## Low Level Design (LLD)
+
+```mermaid
+classDiagram
+    %% Frontend Components
+    class NextJSApp {
+        +handleFileUpload()
+        +handleFileDownload()
+        +connectToPeer()
+    }
+    
+    class FileUploadComponent {
+        +handleDragDrop()
+        +validateFile()
+        +uploadFile()
+    }
+    
+    class FileDownloadComponent {
+        +enterInviteCode()
+        +downloadFile()
+        +showProgress()
+    }
+
+    %% Backend Components
+    class App {
+        +main()
+        +startServer()
+    }
+    
+    class FileController {
+        +uploadFile()
+        +generateInviteCode()
+        +validateInviteCode()
+    }
+    
+    class FileService {
+        +storeFile()
+        +createFileServer()
+        +handleFileTransfer()
+    }
+    
+    class FileUtils {
+        +validateFile()
+        +generatePort()
+        +cleanupResources()
+    }
+
+    %% Relationships
+    NextJSApp --> FileUploadComponent
+    NextJSApp --> FileDownloadComponent
+    FileUploadComponent --> FileController
+    FileDownloadComponent --> FileController
+    FileController --> FileService
+    FileService --> FileUtils
+
+    %% Data Flow
+    class DataFlow {
+        FileUpload
+        FileDownload
+        InviteCode
+        PortNumber
+    }
+
+    %% Component Notes
+    note for NextJSApp "Handles UI state and user interactions"
+    note for FileController "REST API endpoints for file operations"
+    note for FileService "Core business logic for file handling"
+    note for FileUtils "Utility functions for file operations"
+```
+
+### Component Details
+
+1. **Frontend Components**
+   - `NextJSApp`: Main application component managing state and routing
+   - `FileUploadComponent`: Handles drag-and-drop file uploads
+   - `FileDownloadComponent`: Manages file downloads using invite codes
+
+2. **Backend Components**
+   - `App`: Main application entry point and server initialization
+   - `FileController`: REST API endpoints for file operations
+   - `FileService`: Core business logic for file handling
+   - `FileUtils`: Utility functions for file validation and port management
+
+3. **Data Flow**
+   - File uploads are handled through drag-and-drop
+   - Invite codes (port numbers) are generated for sharing
+   - Direct peer-to-peer file transfer using WebSocket connections
 
 ## Security Considerations
 
